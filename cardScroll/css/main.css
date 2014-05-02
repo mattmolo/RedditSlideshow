@@ -1,5 +1,6 @@
 body {
 	background: #000;
+	overflow:hidden;
 }
 
 .infoCard {
@@ -16,9 +17,12 @@ body {
 	width: 50%;
 	height: 50%;
 	position: absolute;
-	-webkit-transition: top 20s;
-	transition: top 20s;
+	-webkit-transition: top 20s linear;
+	-moz-transition: top 20s linear;
+	transition: top 20s linear;
 }
+
+
 
 .imgLoad {
 	position:absolute;
@@ -36,6 +40,7 @@ body {
 	background-repeat: no-repeat;
 	background-position: 50% 50%, center;
 	-webkit-transition: background 0.2s;
+	-moz-transition: background 0.2s;
 	transition: background 0.2s;
 }
 .downvote {
@@ -48,6 +53,7 @@ body {
 	background-repeat: no-repeat;
 	background-position: 50% 50%, center;
 	-webkit-transition: background 0.2s;
+	-moz-transition: background 0.2s;
 	transition: background 0.2s;
 }
 .upvote:hover {

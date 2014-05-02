@@ -8,18 +8,16 @@
 <!-- <div id="cardCont1" class="infoCardContainer">
 	<img id="card1" class="infoCard">
 </div> -->
-<img id="imgLoader" class="imgLoad">
-
-
-
-
-
-
-
-
 </body>
 <script>
 var a;
+$('body').on({
+'mousewheel': function(e) {
+    if (e.target.id == 'el') return;
+    e.preventDefault();
+    e.stopPropagation();
+    }
+})
 $.ajax({
      type : "GET",
      dataType : "jsonp",
@@ -43,7 +41,9 @@ setTimeout(function(){
 	var i;
 	var max = a.length;
 	getMeta(a[1].data.url, 'l', counter2++);
-	getMeta(a[2].data.url, 'r', counter2++);//can be 'l' for left or 'r' for right
+	setTimeout(function(){
+		getMeta(a[2].data.url, 'r', counter2++);
+	}, 1000);//can be 'l' for left or 'r' for right
 	// + a[0].data.title + "<br>";
 }, 2000);
 
@@ -58,8 +58,14 @@ function getMeta(url, side, counter){
 		    var ratio = s.w / s.h;
 	     	$( 'body' ).append("<div id='cardCont" + counter + "' class='infoCardContainer'><div class='upvote'></div><div class='downvote'></div><img id='card" + counter + "' class='infoCard'></div>");
 	     	$( '#cardCont' + counter ).css('width', 50 + "%");
+	     	$( '#cardCont' + counter ).css("top", 100 + "%");
 	     	$( '#cardCont' + counter ).css('height', $( '#card' + counter ).css('width').replace(/[^-\d\.]/g, '') / ratio + 'px');
 		    $( '#card' + counter ).attr("src", url);
+		    $( '#cardCont' + counter ).css("top", 0 - $( '#card' + counter ).css('height').replace(/[^-\d\.]/g, ''));
+		    setTimeout(function(){
+		    	$( '#cardCont' + counter).remove();
+		    	$( '#imgLoader' + counter).remove();
+		    },20000);
 	  }); 
 	}
 	else if(side == 'r'){
@@ -69,9 +75,15 @@ function getMeta(url, side, counter){
 		    var ratio = s.w / s.h;
 	     	$( 'body' ).append("<div id='cardCont" + counter + "' class='infoCardContainer'><div class='upvote'></div><div class='downvote'></div><img id='card" + counter + "' class='infoCard'></div>");
 	     	$( '#cardCont' + counter ).css('width', 50 + "%");
+	     	$( '#cardCont' + counter ).css("top", 100 + "%");
 	     	$( '#cardCont' + counter ).css('left', 50 + "%");
 	     	$( '#cardCont' + counter ).css('height', $( '#card' + counter ).css('width').replace(/[^-\d\.]/g, '') / ratio + 'px');
 		    $( '#card' + counter ).attr("src", url);
+		    $( '#cardCont' + counter ).css("top", 0 - $( '#card' + counter ).css('height').replace(/[^-\d\.]/g, ''));
+		    setTimeout(function(){
+		    	$( '#cardCont' + counter).remove();
+		    	$( '#imgLoader' + counter).remove();
+		    },20000);
 	  }); 
 	}
 }
