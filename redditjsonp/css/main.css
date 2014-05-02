@@ -11,5 +11,5 @@ body {
 	opacity: 0;
 	background-size: contain;
 	background-repeat: no-repeat;
-	background-position: 50% 0px, center;
+	background-position: 50% 50%, center;
 }
