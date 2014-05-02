@@ -15,10 +15,9 @@ body {
 	position: absolute;
 	-webkit-transition: top 20s;
 	transition: top 20s;
-	box-shadow: 0.1em 0.1em 10px rgba(255, 255, 255, 0.8);
 }
 
-#imgLoader {
+.imgLoad {
 	width: 1%;
 	height: auto;
 	opacity: 0;
