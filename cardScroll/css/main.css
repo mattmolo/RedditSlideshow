@@ -32,6 +32,9 @@ body {
 	position: absolute;
 	width: 100%;
 	height: 50%;
+	background-size: 50px auto;
+	background-repeat: no-repeat;
+	background-position: 50% 50%, center;
 	-webkit-transition: background 0.2s;
 	transition: background 0.2s;
 }
@@ -41,14 +44,23 @@ body {
 	width: 100%;
 	height: 50%;
 	top: 50%;
+	background-size: 50px auto;
+	background-repeat: no-repeat;
+	background-position: 50% 50%, center;
 	-webkit-transition: background 0.2s;
 	transition: background 0.2s;
 }
 .upvote:hover {
-	background: rgba(0,255,0, 0.2);
+	background: url(../img/upvote.png), rgba(0,255,0, 0.2);
+	background-size: 50px auto;
+	background-repeat: no-repeat;
+	background-position: 50% 50%, center;
 	cursor: pointer;
 }
 .downvote:hover {
-	background: rgba(255,0,0, 0.2);
+	background: url(../img/downvote.png),rgba(255,0,0, 0.2);
+	background-size: 50px auto;
+	background-repeat: no-repeat;
+	background-position: 50% 50%, center;
 	cursor: pointer;
 }
