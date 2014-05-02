@@ -5,12 +5,10 @@
 <link rel="stylesheet" type="text/css" href="css/main.css" media="screen" title="no title"/>
 </head>
 <body>
-<div id="towrite" class="towrite">
-</div>
-<div id="towrite2" class="towrite">
-</div>
-
-
+<!-- <div id="cardCont1" class="infoCardContainer">
+	<img id="card1" class="infoCard">
+</div> -->
+<img id="imgLoader">
 
 
 
@@ -40,17 +38,31 @@ function test(data){
 }
 var towriteNum = 0;
 var imgNum = 1;
+var dim;
 setTimeout(function(){
 	var i;
 	var max = a.length;
-	$( '#towrite' ).css("background-image", "url(" + a[0].data.url +  ")");// + a[0].data.title + "<br>";
-	$( '#towrite' ).css("opacity", 1);
-	for (i = 1; i < max - 1; i++)
-	{
-		setTimeout(function(){callNextImage()}, i*4000);
-	}
+	getMeta(a[2].data.url);
+	console.log(dim);
+	// + a[0].data.title + "<br>";
 }, 2000);
 var counter = 0;
+
+function getMeta(url){
+  $(" #imgLoader ").attr("src", url).load(function(){
+     s = {w:this.width, h:this.height};
+     var ratio = s.w / s.h;
+     if(s.w >= s.h)
+     {
+     	$( 'body' ).append("<div id='cardCont" + counter + "' class='infoCardContainer'><img id='card" + counter + "' class='infoCard'></div>");
+     	$( '#cardCont' + counter ).css('width', 50 + "%");
+     	$( '#cardCont' + counter ).css('height', $( '#card' + counter ).css('width').replace(/[^-\d\.]/g, '') / ratio + 'px');
+     }
+  }); 
+  $( '#card' + counter ).attr("src", a[2].data.url);
+}
+
+
 /*function findNextImg()
 {
     timeout = 5000;

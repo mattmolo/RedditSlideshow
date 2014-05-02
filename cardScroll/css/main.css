@@ -1,0 +1,25 @@
+body {
+	background: #000;
+}
+
+.infoCard {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+.infoCardContainer {
+	background: #fff;
+	width: 50%;
+	height: 50%;
+	position: absolute;
+	-webkit-transition: top 20s;
+	transition: top 20s;
+	box-shadow: 0.1em 0.1em 10px rgba(255, 255, 255, 0.8);
+}
+
+#imgLoader {
+	width: 1%;
+	height: auto;
+	opacity: 0;
+}
