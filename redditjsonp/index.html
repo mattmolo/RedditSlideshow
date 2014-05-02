@@ -1,0 +1,110 @@
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/reset.css" media="screen" title="no title"/>
+<link rel="stylesheet" type="text/css" href="css/main.css" media="screen" title="no title"/>
+</head>
+<body>
+<div id="towrite" class="towrite">
+</div>
+<div id="towrite2" class="towrite">
+</div>
+
+
+
+
+
+
+
+
+
+
+</body>
+<script>
+var a;
+$.ajax({
+     type : "GET",
+     dataType : "jsonp",
+     url : "http://reddit.com/r/earthporn.json?jsonp=test", // ?callback=?
+     failure: function(data){
+     }
+});
+function test(data){
+	a = data.data.children;
+	var i;
+	var max = a.length;
+	for (i = 0; i < max; i++)
+	{
+		console.log(a[i].data);//.url + '.gif');
+
+	}
+}
+var towriteNum = 0;
+var imgNum = 1;
+setTimeout(function(){
+	var i;
+	var max = a.length;
+	$( '#towrite' ).css("background-image", "url(" + a[0].data.url +  ")");// + a[0].data.title + "<br>";
+	$( '#towrite' ).css("opacity", 1);
+	for (i = 1; i < max - 1; i++)
+	{
+		setTimeout(function(){callNextImage()}, i*4000);
+	}
+}, 2000);
+var counter = 0;
+/*function findNextImg()
+{
+    timeout = 5000;
+    var timedOut = false, timer;
+    var img = new Image();
+    img.onerror = img.onabort = function() {
+        if (!timedOut) {
+            clearTimeout(timer);
+            return 0;
+        }
+    };
+    img.onload = function() {
+        if (!timedOut) {
+            clearTimeout(timer);
+            console.log("SUCCESS!");
+            return 1;
+        }
+    };
+    img.src = a[imgNum].data.url;
+    timer = setTimeout(function() {
+        timedOut = true;
+        console.log("Timed Out");
+        return 0;
+    }, timeout); 
+}*/
+function callNextImage()
+{	
+	/*while(findNextImg() != 1)
+	{
+			imgNum++;
+	}*/
+	if (towriteNum == 0)
+	{
+		$( '#towrite' ).css("opacity", 0);
+		setTimeout(function()
+		{
+			$( '#towrite' ).css("background-image", "url(" + a[imgNum].data.url +  ")");
+		},1000);
+		$( '#towrite2' ).css("opacity", 1);
+		towriteNum = 1;
+	}
+	else
+	{
+		$("#towrite2").css("opacity", 0);
+		setTimeout(function()
+		{
+		$( '#towrite2' ).css("background-image", "url(" + a[imgNum].data.url +  ")");
+		},1000);
+		$("#towrite").css("opacity", 1);
+		towriteNum = 0;
+	}
+	imgNum++;
+}
+</script>
+
+</html>
