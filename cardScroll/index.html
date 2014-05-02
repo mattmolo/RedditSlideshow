@@ -56,7 +56,7 @@ function getMeta(url, side, counter){
 		$( "#imgLoader" + counter).attr("src", url).load(function(){
 		    s = {w:this.width, h:this.height};
 		    var ratio = s.w / s.h;
-	     	$( 'body' ).append("<div id='cardCont" + counter + "' class='infoCardContainer'><img id='card" + counter + "' class='infoCard'></div>");
+	     	$( 'body' ).append("<div id='cardCont" + counter + "' class='infoCardContainer'><div class='upvote'></div><div class='downvote'></div><img id='card" + counter + "' class='infoCard'></div>");
 	     	$( '#cardCont' + counter ).css('width', 50 + "%");
 	     	$( '#cardCont' + counter ).css('height', $( '#card' + counter ).css('width').replace(/[^-\d\.]/g, '') / ratio + 'px');
 		    $( '#card' + counter ).attr("src", url);
@@ -67,7 +67,7 @@ function getMeta(url, side, counter){
 		$( "#imgLoader" + counter).attr("src", url).load(function(){
 		    s = {w:this.width, h:this.height};
 		    var ratio = s.w / s.h;
-	     	$( 'body' ).append("<div id='cardCont" + counter + "' class='infoCardContainer'><img id='card" + counter + "' class='infoCard'></div>");
+	     	$( 'body' ).append("<div id='cardCont" + counter + "' class='infoCardContainer'><div class='upvote'></div><div class='downvote'></div><img id='card" + counter + "' class='infoCard'></div>");
 	     	$( '#cardCont' + counter ).css('width', 50 + "%");
 	     	$( '#cardCont' + counter ).css('left', 50 + "%");
 	     	$( '#cardCont' + counter ).css('height', $( '#card' + counter ).css('width').replace(/[^-\d\.]/g, '') / ratio + 'px');

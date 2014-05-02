@@ -7,6 +7,9 @@ body {
 	width: 100%;
 	height: 100%;
 }
+.infoCard img{
+	position: absolute;
+}
 
 .infoCardContainer {
 	background: #fff;
@@ -18,7 +21,34 @@ body {
 }
 
 .imgLoad {
+	position:absolute;
 	width: 1%;
 	height: auto;
 	opacity: 0;
+}
+
+.upvote {
+	z-index: 1;
+	position: absolute;
+	width: 100%;
+	height: 50%;
+	-webkit-transition: background 0.2s;
+	transition: background 0.2s;
+}
+.downvote {
+	z-index: 1;
+	position: absolute;
+	width: 100%;
+	height: 50%;
+	top: 50%;
+	-webkit-transition: background 0.2s;
+	transition: background 0.2s;
+}
+.upvote:hover {
+	background: rgba(0,255,0, 0.2);
+	cursor: pointer;
+}
+.downvote:hover {
+	background: rgba(255,0,0, 0.2);
+	cursor: pointer;
 }
