@@ -22,7 +22,7 @@ $('body').on({
 $.ajax({
      type : "GET",
      dataType : "jsonp",
-     url : "http://reddit.com/r/earthporn.json?jsonp=test", // ?callback=?
+     url : "http://reddit.com/.json?jsonp=test", // ?callback=?
      failure: function(data){
      }
 });
@@ -41,9 +41,9 @@ setTimeout(function(){
 	var counter2 = 0;
 	var i;
 	var max = a.length;
-	getMeta(a[1].data.url, 'l', counter2++);
+	getMeta(a[6].data.url, 'l', counter2++);
 	setTimeout(function(){
-		getMeta(a[2].data.url, 'r', counter2++);
+		getMeta(a[5].data.url, 'r', counter2++);
 	}, 1000);//can be 'l' for left or 'r' for right
 	// + a[0].data.title + "<br>";
 }, 2000);
