@@ -5,6 +5,12 @@
 <link rel="stylesheet" type="text/css" href="css/main.css" media="screen" title="no title"/>
 </head>
 <body>
+	<div id="leftBar" class="imgBar">
+	</div>
+	<div id="rightBar" class="imgBar">
+	</div>
+	<p>...Loading Images...</p>
+	<p>...This takes about 10 seconds...</p>
 <!-- <div id="cardCont1" class="infoCardContainer">
 	<img id="card1" class="infoCard">
 </div> -->
@@ -54,51 +60,65 @@ function sanitizeImages(){
 	}
 	a = tempArray;
 }
+var iteration = 0;
 function loopThroughPics()
 {
+	$('#leftBar').toggle();
+	$('#rightBar').toggle();
 	var imgLen = a.length;
 	var j;
 	var ratio;
+	var leftRight = 0;
 	for (j = 0; j < imgLen; j++)
 	{
 		counter = j;
 		$( 'body' ).append("<img id='imgLoader" + counter + "' class='imgLoad'>")
-		$( "#imgLoader" + counter).attr("src", a[j].data.url).load(loadLoader(j));
-	}
-}
-function loadLoader(j)
-{
-    var s = {w:$( "#imgLoader" + j).width, h:$( "#imgLoader" + j).height};
-    ratio = s.w / s.h;
-    if(j == 0)
-    {
-    	pushImage(a[j].data.url, 0, 'l', s, j)
-    }
-    else{
-    	pushImage(a[j].data.url, (($( window ).width/2) / ratio)/$( window ).height() * 10000, 'l', s, j)
-    }
-}
-
-function pushImage(url2, currentWait, side, s, counter){
-	setTimeout(function(){
-		var ratio = s.w / s.h;
-     	$( 'body' ).append("<div id='cardCont" + counter + "' class='infoCardContainer'><div class='upvote'></div><div class='downvote'></div><img id='card" + counter + "' class='infoCard'></div>");
-     	$( '#cardCont' + counter ).css('width', 50 + "%");
-     	$( '#cardCont' + counter ).css("top", 100 + "%");
-     	$( '#cardCont' + counter ).css('height', $( '#card' + counter ).css('width').replace(/[^-\d\.]/g, '') / ratio + 'px');
-	    $( '#card' + counter ).attr("src", url2);
-		$( "#cardCont" + counter ).animate({
-			marginTop: "-100%"
-		}, 20000, "linear", function() {
-		// Animation complete.
+		$( "#imgLoader" + counter).attr("src", a[j].data.url).load(function(){
+			var s = {w:this.width, h:this.height};
+    		ratio = s.w / s.h;
+    		if(leftRight == 0)
+    		{
+			 	$( '#leftBar' ).append("<div id='cardCont" + iteration + "' class='infoCardContainer'><div class='upvote'></div><div class='downvote'></div><img id='card" + iteration + "' class='infoCard'></div>");
+			 	//$( '#card' + iteration ).css('height', $( window ).width() / 2 / ratio + 'px');
+			 	//$( '#cardCont' + iteration ).css('height', $( window ).width() / 2 / ratio + 'px');
+			 	$( '#leftBar' ).css("top", 0 + "%");
+			 	$( '#leftBar' ).css("height", $( '#leftBar' ).css("height") + $( '#card' + iteration ).height() + "px");
+			    $( '#card' + iteration ).attr("src", a[iteration].data.url);
+			    leftRight = 1;
+			}
+			else{
+			 	$( '#rightBar' ).append("<div id='cardCont" + iteration + "' class='infoCardContainer'><div class='upvote'></div><div class='downvote'></div><img id='card" + iteration + "' class='infoCard'></div>");
+			 	//$( '#card' + iteration ).css('height', $( window ).width() / 2 / ratio + 'px');
+			 	//$( '#cardCont' + iteration ).css('height', $( window ).width() / 2 / ratio + 'px');
+			 	$( '#rightBar' ).css("top", 0 + "%");
+			 	$( '#rightBar' ).css("height", $( '#rightBar' ).css("height") + $( '#card' + iteration ).height() + "px");
+			    $( '#card' + iteration ).attr("src", a[iteration].data.url);
+			    leftRight = 0;
+			}
+			iteration++;
 		});
-	    //$( '#cardCont' + counter ).css("top", 0 - $( '#card' + counter ).css('height').replace(/[^-\d\.]/g, ''));
-	    setTimeout(function(){
-	    	$( '#cardCont' + counter).remove();
-	    	$( '#imgLoader' + counter).remove();
-	    },20000);	
-	}, currentWait);
+	}
+	setTimeout(function(){
+		$('#leftBar').toggle();
+		$('#rightBar').toggle();
+		animateMe($( '#leftBar' ), 1000)
+		animateMe($( '#rightBar' ), 1000)
+	},9000);
 }
+var animateMe = function(targetElement, speed){
+
+    $(targetElement).animate(
+        {
+        'margin-top': $(targetElement).css('margin-top').replace(/[^-\d\.]/g, '') - 40
+        },
+     	speed,
+        'linear',
+        function(){
+            animateMe(this, speed);
+        }
+    );
+
+};
 function getUrlParameter(sParam) {
     var sPageURL = window.location.search.substring(1);
     var sURLVariables = sPageURL.split('&');

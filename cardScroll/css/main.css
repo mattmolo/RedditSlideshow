@@ -1,28 +1,41 @@
 body {
 	background: #000;
 	overflow:hidden;
+	color: white;
+}
+p {
+	padding: 1em 1em;
 }
 
 .infoCard {
-	position: absolute;
 	width: 100%;
-	height: 100%;
+	height: auto;
 }
-.infoCard img{
-	position: absolute;
-}
+
 
 .infoCardContainer {
 	background: #fff;
-	width: 50%;
-	height: 50%;
-	position: absolute;
+	width: 100%;
+	height: auto;
+	float: left;
 	-webkit-transition: top 20s linear;
 	-moz-transition: top 20s linear;
 	transition: top 20s linear;
 }
 
-
+.imgBar {
+	position: absolute;
+	width: 50%;
+}
+#leftBar {
+	width: 50%;
+	height: auto;
+}
+#rightBar {
+	left: 50%;
+	width: 50%;
+	height: auto;
+}
 
 .imgLoad {
 	position:absolute;
@@ -31,7 +44,7 @@ body {
 	opacity: 0;
 }
 
-.upvote {
+/*.upvote {
 	z-index: 1;
 	position: absolute;
 	width: 100%;
@@ -69,4 +82,4 @@ body {
 	background-repeat: no-repeat;
 	background-position: 50% 50%, center;
 	cursor: pointer;
-}
+} */
