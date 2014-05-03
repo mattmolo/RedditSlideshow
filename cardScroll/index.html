@@ -19,10 +19,11 @@ $('body').on({
     e.stopPropagation();
     }
 })
+var subs = getUrlParameter("r");
 $.ajax({
      type : "GET",
      dataType : "jsonp",
-     url : "http://reddit.com/.json?jsonp=test", // ?callback=?
+     url : "http://reddit.com/r/"+subs+".json?jsonp=test", // ?callback=?
      failure: function(data){
      }
 });
@@ -38,31 +39,72 @@ function test(data){
 var towriteNum = 0;
 var imgNum = 1;
 setTimeout(function(){
-	var counter2 = 0;
-	var i;
-	var max = a.length;
-	getMeta(a[6].data.url, 'l', counter2++);
-	setTimeout(function(){
-		getMeta(a[5].data.url, 'r', counter2++);
-	}, 1000);//can be 'l' for left or 'r' for right
+	sanitizeImages();
+	loopThroughPics();//can be 'l' for left or 'r' for right
 	// + a[0].data.title + "<br>";
 }, 2000);
-
-
-function getMeta(url, side, counter){
+function sanitizeImages(){
+	var i = 0;
+	max = a.length;
+	var tempArray = [];
+	for (i = 0; i < max; i++)
+	{
+		if(a[i].data.url.match(/\.(jpg|jpeg|png|gif)$/) != null)
+		{
+			tempArray.push(a[i])
+		}
+	}
+	a = tempArray;
+}
+function loopThroughPics()
+{
+	var counter2 = 0;
+	var counter3 = -1;
+	max = a.length;
+	var i = 0;
+	var url;
+	var leftRight = 0;
+	while(max != i)
+	{
+		if(leftRight == 0)
+		{
+			leftRight = 1;
+			setTimeout(function(){
+				url = a[++counter3].data.url;
+				getMeta(url, 'l', counter3);
+			}, counter2++*4000);
+		}
+		else
+		{
+			leftRight = 0;
+			setTimeout(function(){
+				url = a[++counter3].data.url;
+				getMeta(url, 'r', counter3);
+			}, counter2++*4000);
+		}
+		i++;
+	}
+}
+function getMeta(url2, side, counter){
 	counter++;
 	if (side == 'l')
 	{
+		console.log("Chose Left");
 		$( 'body' ).append("<img id='imgLoader" + counter + "' class='imgLoad'>")
-		$( "#imgLoader" + counter).attr("src", url).load(function(){
+		$( "#imgLoader" + counter).attr("src", url2).load(function(){
 		    s = {w:this.width, h:this.height};
 		    var ratio = s.w / s.h;
 	     	$( 'body' ).append("<div id='cardCont" + counter + "' class='infoCardContainer'><div class='upvote'></div><div class='downvote'></div><img id='card" + counter + "' class='infoCard'></div>");
 	     	$( '#cardCont' + counter ).css('width', 50 + "%");
 	     	$( '#cardCont' + counter ).css("top", 100 + "%");
 	     	$( '#cardCont' + counter ).css('height', $( '#card' + counter ).css('width').replace(/[^-\d\.]/g, '') / ratio + 'px');
-		    $( '#card' + counter ).attr("src", url);
-		    $( '#cardCont' + counter ).css("top", 0 - $( '#card' + counter ).css('height').replace(/[^-\d\.]/g, ''));
+		    $( '#card' + counter ).attr("src", url2);
+			$( "#cardCont" + counter ).animate({
+				marginTop: "-100%"
+			}, 20000, "linear", function() {
+			// Animation complete.
+			});
+		    //$( '#cardCont' + counter ).css("top", 0 - $( '#card' + counter ).css('height').replace(/[^-\d\.]/g, ''));
 		    setTimeout(function(){
 		    	$( '#cardCont' + counter).remove();
 		    	$( '#imgLoader' + counter).remove();
@@ -70,8 +112,9 @@ function getMeta(url, side, counter){
 	  }); 
 	}
 	else if(side == 'r'){
+		console.log("Chose Right");
 		$( 'body' ).append("<img id='imgLoader" + counter + "' class='imgLoad'>")
-		$( "#imgLoader" + counter).attr("src", url).load(function(){
+		$( "#imgLoader" + counter).attr("src", url2).load(function(){
 		    s = {w:this.width, h:this.height};
 		    var ratio = s.w / s.h;
 	     	$( 'body' ).append("<div id='cardCont" + counter + "' class='infoCardContainer'><div class='upvote'></div><div class='downvote'></div><img id='card" + counter + "' class='infoCard'></div>");
@@ -79,8 +122,13 @@ function getMeta(url, side, counter){
 	     	$( '#cardCont' + counter ).css("top", 100 + "%");
 	     	$( '#cardCont' + counter ).css('left', 50 + "%");
 	     	$( '#cardCont' + counter ).css('height', $( '#card' + counter ).css('width').replace(/[^-\d\.]/g, '') / ratio + 'px');
-		    $( '#card' + counter ).attr("src", url);
-		    $( '#cardCont' + counter ).css("top", 0 - $( '#card' + counter ).css('height').replace(/[^-\d\.]/g, ''));
+		    $( '#card' + counter ).attr("src", url2);
+		    $( "#cardCont" + counter ).animate({
+				marginTop: "-100%"
+			}, 20000, "linear", function() {
+			// Animation complete.
+			});
+		   // $( '#cardCont' + counter ).css("top", 0 - $( '#card' + counter ).css('height').replace(/[^-\d\.]/g, ''));
 		    setTimeout(function(){
 		    	$( '#cardCont' + counter).remove();
 		    	$( '#imgLoader' + counter).remove();
@@ -115,33 +163,15 @@ function getMeta(url, side, counter){
         return 0;
     }, timeout); 
 }*/
-function callNextImage()
-{	
-	/*while(findNextImg() != 1)
-	{
-			imgNum++;
-	}*/
-	if (towriteNum == 0)
-	{
-		$( '#towrite' ).css("opacity", 0);
-		setTimeout(function()
-		{
-			$( '#towrite' ).css("background-image", "url(" + a[imgNum].data.url +  ")");
-		},1000);
-		$( '#towrite2' ).css("opacity", 1);
-		towriteNum = 1;
-	}
-	else
-	{
-		$("#towrite2").css("opacity", 0);
-		setTimeout(function()
-		{
-		$( '#towrite2' ).css("background-image", "url(" + a[imgNum].data.url +  ")");
-		},1000);
-		$("#towrite").css("opacity", 1);
-		towriteNum = 0;
-	}
-	imgNum++;
+function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) {
+            return sParameterName[1];
+        }
+    }
 }
 </script>
 
