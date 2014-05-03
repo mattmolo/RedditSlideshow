@@ -28,11 +28,10 @@ body {
 	background-size: cover;
 }
 
-.menu{
-	position:absolute;
-	bottom:20px;
-	left:141px;
-	z-index:80;
-	width:100%;
-	line-height:12px
+.notransition * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  -ms-transition: none !important;
+  transition: none !important;
 }
