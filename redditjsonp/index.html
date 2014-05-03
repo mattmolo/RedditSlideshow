@@ -14,7 +14,7 @@
 <script>
 
     var posts;
-    var max;
+
     var subs = getUrlParameter("r");
     if (getUrlParameter("fit") == "true") {
         $("#pic1").attr('class', 'fit');
@@ -29,23 +29,23 @@
 
 
     function jsonData(data){
-        posts = data.data.children;
-        max = posts.length;
+        posts = sanitizeImages(data.data.children);
+        var max = posts.length;
+
         $("body").addClass("notransition");
         $('#pic1').css("background-image", "url(" + posts[0].data.url +  ")");
         $('#pic2').css("background-image", "url(" + posts[1].data.url +  ")");
         $("body").removeClass("notransition");
+
+        var imageCounter = 1;
+        var loop = setInterval(function() {
+            if (imageCounter > max) {
+                clearInterval(loop);
+            } else {
+                callNextImage(imageCounter++);
+            }
+        }, 4000);
     }
-
-    var imageCounter = 1;
-    var loop = setInterval(function() {
-
-        if (imageCounter > max) {
-            clearInterval(loop);
-        } else {
-            callNextImage(imageCounter++);
-        }
-    }, 4000);
 
     function callNextImage(imgNum) {
 
@@ -78,33 +78,16 @@
         }
     }
 
-
-
-    /*function findNextImg()
-        {
-        timeout = 5000;
-        var timedOut = false, timer;
-        var img = new Image();
-        img.onerror = img.onabort = function() {
-        if (!timedOut) {
-            clearTimeout(timer);
-            return 0;
+    function sanitizeImages(images) {
+        var len = images.length;
+        var newImages = [];
+        for (var i = 0; i < len; i++) {
+            if(images[i].data.url.match(/\.(jpg|jpeg|png|gif)$/) !== null) {
+                newImages.push(images[i]);
         }
-        };
-        img.onload = function() {
-        if (!timedOut) {
-            clearTimeout(timer);
-            console.log("SUCCESS!");
-            return 1;
-        }
-        };
-        img.src = posts[imgNum].data.url;
-        timer = setTimeout(function() {
-        timedOut = true;
-        console.log("Timed Out");
-        return 0;
-        }, timeout);
-    }*/
+    }
+    return newImages;
+}
 
 </script>
 
