@@ -15,20 +15,18 @@
 
     var posts;
 
-    var subs = getUrlParameter("r");
+    var subs = (getUrlParameter("r") == 'undefined') ? getUrlParameter("r") : "all";
+    var url = "http://www.reddit.com/r/"+subs+".json?limit=50&jsonp=?&after=t3_24kg0r";
+
     if (getUrlParameter("fit") == "true") {
         $("#pic1").attr('class', 'fit');
         $("#pic2").attr('class', 'fit');
     }
 
-    $.ajax({
-        type : "GET",
-        dataType : "jsonp",
-        url : 'http://reddit.com/r/'+subs+'.json?jsonp=jsonData',
-    });
-
-
-    function jsonData(data){
+    loadData(url);
+    //refactor loading things like this: http://stackoverflow.com/a/12180186
+    function loadData(url) {
+        $.getJSON(url, function callback(data){
         posts = sanitizeImages(data.data.children);
         var max = posts.length;
 
@@ -36,6 +34,24 @@
         $('#pic1').css("background-image", "url(" + posts[0].data.url +  ")");
         $('#pic2').css("background-image", "url(" + posts[1].data.url +  ")");
         $("body").removeClass("notransition");
+
+        var imageCounter = 1;
+        var loop = setInterval(function() {
+            if (imageCounter > max) {
+                clearInterval(loop);
+            } else {
+                callNextImage(imageCounter++);
+            }
+        }, 5000);
+
+        })
+        .success(function(data)  {  console.log(data); })
+        .error(function()    {  /*alert("error");*/          })
+        .complete(function() {  /*alert("complete");*/       });
+    }
+
+
+    function jsonData(data, max){
 
         var imageCounter = 1;
         var loop = setInterval(function() {
@@ -55,15 +71,12 @@
             setTimeout(function() {
                 $('#pic2').css("background-image", "url(" + posts[imgNum+1].data.url +  ")");
             },1000);
-
         } else {
-
             $("#pic1").css("opacity", 0);
             $('#pic2').css("opacity", 1);
             setTimeout(function() {
                 $('#pic1').css("background-image", "url(" + posts[imgNum+1].data.url +  ")");
             },1000);
-
         }
     }
 
