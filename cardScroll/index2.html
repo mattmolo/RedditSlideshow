@@ -25,7 +25,8 @@ $('body').on({
     e.stopPropagation();
     }
 })
-var subs = getUrlParameter("r");
+	var subs = (getUrlParameter("r") == 'undefined') ? getUrlParameter("r") : "all";
+    var url = "http://www.reddit.com/r/"+subs+".json?limit=50&jsonp=?&after=t3_24kg0r";
 $.ajax({
      type : "GET",
      dataType : "jsonp",
